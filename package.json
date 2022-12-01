@@ -15,7 +15,7 @@
         "generate": "node bin/index.mjs"
     },
     "bin": {
-        "graph": "node bin/index.mjs"
+        "graph": "bin/index.mjs"
     },
     "preferGlobal": true,
     "keywords": [
