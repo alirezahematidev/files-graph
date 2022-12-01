@@ -1,0 +1,17 @@
+{
+    "name": "files-graph",
+    "version": "1.0.0",
+    "description": "",
+    "main": "bin/index.mjs",
+    "files": [
+        "bin"
+    ],
+    "scripts": {},
+    "bin": {
+        "graph": "bin/index.mjs"
+    },
+    "preferGlobal": true,
+    "keywords": [],
+    "author": "",
+    "license": "ISC"
+}
