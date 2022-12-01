@@ -1,10 +1,11 @@
 {
     "name": "files-graph",
-    "version": "0.0.2",
+    "version": "0.0.3",
     "description": "",
-    "main": "bin/index.mjs",
+    "main": "src/index.mjs",
     "files": [
-        "bin"
+        "bin",
+        "src"
     ],
     "scripts": {},
     "bin": {
