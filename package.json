@@ -7,6 +7,10 @@
         "bin",
         "src"
     ],
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/alirezahematidev/files-graph"
+    },
     "scripts": {
         "generate": "node bin/index.mjs"
     },
