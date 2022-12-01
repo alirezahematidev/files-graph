@@ -1,18 +1,23 @@
 {
     "name": "files-graph",
     "version": "0.0.3",
-    "description": "",
+    "description": "files graph generator",
     "main": "src/index.mjs",
     "files": [
         "bin",
         "src"
     ],
-    "scripts": {},
+    "scripts": {
+        "generate": "node bin/index.mjs"
+    },
     "bin": {
-        "graph": "bin/index.mjs"
+        "graph": "node bin/index.mjs"
     },
     "preferGlobal": true,
-    "keywords": [],
-    "author": "",
-    "license": "ISC"
+    "keywords": [
+        "graph",
+        "files"
+    ],
+    "author": "Alireza Hemati",
+    "license": "MIT"
 }

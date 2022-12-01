@@ -1,5 +1,10 @@
 #!/usr/bin/env node
 
-import { generate } from '../src/index.mjs';
+import { getArgs } from '../src/args/index.js';
+import { generate } from '../src/index.js';
 
-generate();
+const args = process.argv;
+
+const props = getArgs(args);
+
+generate(props);
