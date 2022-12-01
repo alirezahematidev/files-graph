@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-import { getArgs } from '../src/args/index.js';
+import { getArgs } from '../src/args/index.mjs';
 import { generate } from '../src/index.js';
 
 const args = process.argv;

@@ -3,7 +3,7 @@ const { randomBytes } = require('crypto');
 const fs = require('fs');
 const path = require('path');
 
-function generate({ shouldGenerateId, withExtension, sourcePath, outputPath, name }) {
+function generate({ shouldGenerateId, withExtension, sourcePath, outputPath, name, includePath, ignore_files }) {
   const concat = (source, target) => {
     return path.join(source, target);
   };
@@ -11,19 +11,26 @@ function generate({ shouldGenerateId, withExtension, sourcePath, outputPath, nam
   const isDirectory = (directory, name) => {
     const dir = concat(directory, name);
 
-    const _isDir = fs.lstatSync(dir).isDirectory();
-
-    return _isDir || !path.extname(name);
+    return fs.lstatSync(dir).isDirectory();
   };
 
-  const getExtenstion = (file) => {
+  const getExtenstion = (directory, file) => {
+    if (!fs.lstatSync(concat(directory, file)).isDirectory() && file.startsWith('.') && file.split('.').length <= 2) {
+      return null;
+    }
+
     return path.extname(file).split('.').at(-1);
   };
 
-  const applyExtension = (name) => {
+  const applyExtension = (directory, name) => {
     if (withExtension) {
       return name;
     }
+
+    if (!fs.lstatSync(concat(directory, name)).isDirectory() && name.startsWith('.')) {
+      return name;
+    }
+
     const splitted = name.split('.');
     splitted.pop();
     return splitted.join('.');
@@ -34,33 +41,42 @@ function generate({ shouldGenerateId, withExtension, sourcePath, outputPath, nam
     return randomBytes(12).toString('base64');
   };
 
+  const filePath = (directory, name) => {
+    if (!includePath) return;
+    return concat(directory, name);
+  };
+
   function graph(directory) {
     const files = fs.readdirSync(directory, {
       encoding: 'utf8',
     });
 
-    return files.map((name) => {
-      const id = generateId();
+    return files
+      .map((name) => {
+        const id = generateId();
 
-      if (isDirectory(directory, name)) {
+        if (ignore_files.includes(name.trim())) return;
+
+        if (isDirectory(directory, name)) {
+          return {
+            id,
+            name,
+            extension: null,
+            path: filePath(directory, name),
+            isDirectory: true,
+            subFiles: graph(concat(directory, name)),
+          };
+        }
         return {
           id,
-          name,
-          extension: null,
-          path: concat(directory, name),
-          isDirectory: true,
-          subFiles: graph(concat(directory, name)),
+          name: applyExtension(directory, name),
+          extension: getExtenstion(directory, name),
+          path: filePath(directory, name),
+          isDirectory: false,
+          subFiles: [],
         };
-      }
-      return {
-        id,
-        name: applyExtension(name),
-        extension: getExtenstion(name),
-        path: concat(directory, name),
-        isDirectory: false,
-        subFiles: [],
-      };
-    });
+      })
+      .filter(Boolean);
   }
 
   const entries = graph(sourcePath);

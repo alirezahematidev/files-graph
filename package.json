@@ -23,5 +23,9 @@
         "files"
     ],
     "author": "Alireza Hemati",
-    "license": "MIT"
+    "license": "MIT",
+    "devDependencies": {
+        "@types/chalk": "^2.2.0",
+        "chalk": "^5.1.2"
+    }
 }
